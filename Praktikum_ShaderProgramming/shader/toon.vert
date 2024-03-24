@@ -1,4 +1,4 @@
-varying vec3 worldSpaceNormal;
+out vec3 worldSpaceNormal;
 
 void main(void)
 {
