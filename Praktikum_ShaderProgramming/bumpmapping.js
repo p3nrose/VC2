@@ -20,7 +20,7 @@ $(window).load(function(){
         bump_normal_fs = data.bump_normal.fragment;
         bump_parallax_vs = data.bump_parallax.vertex;
         bump_parallax_fs = data.bump_parallax.fragment;
-        
+
         viewerWidth = $("#viewer").innerWidth();
         viewerHeight = $("#viewer").innerHeight();
     
@@ -70,6 +70,9 @@ function drawScene(){
 
   // PLANE WITH TEXTURE
   var textureMaterial = new THREE.ShaderMaterial({
+    uniforms: {
+        uvNormalTexture: { value: new THREE.TextureLoader().load('textures/mur_Ambiant.bmp') }
+    },
        vertexShader:   bump_texture_vs,
        fragmentShader: bump_texture_fs
    });
