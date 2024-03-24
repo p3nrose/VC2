@@ -1,18 +1,21 @@
-in vec3 WorldSpaceNormal;
-uniform vec3 LightDirection;
+varying vec3 worldSpaceNormal;
+uniform vec3 lightDirection;
 
 void main(void)
 {
-    vec3 normal = normalize(WorldSpaceNormal);
-    vec3 lightDir = normalize(LightDirection);
-
-    float diff = max(0.0, dot(normal, lightDir));
+    float dotProduct = dot(worldSpaceNormal, lightDirection);
 
     vec3 color;
-    if (diff > 0.8) color = vec3(0.8, 0.8, 1.0);
-    else if (diff > 0.6) color = vec3(0.3, 0.3, 0.6);
-    else if (diff > 0.3) color = vec3(0.2, 0.2, 0.4);
-    else color = vec3(0.1, 0.1, 0.2);
 
-    gl_FragColor = vec4(0.0,0.0,0.0,1.0);
+    if (dotProduct > 0.8) {
+        color = vec3(0.8, 0.8, 1.0);
+    } else if (dotProduct > 0.6) {
+        color = vec3(0.3, 0.3, 0.6);
+    } else if (dotProduct > 0.3) {
+        color = vec3(0.2, 0.2, 0.4);
+    } else {
+        color = vec3(0.1, 0.1, 0.2);
+    }
+
+    gl_FragColor = vec4(color, 1.0);
 }

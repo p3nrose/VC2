@@ -1,7 +1,7 @@
-out vec3 WorldSpaceNormal;
+varying vec3 worldSpaceNormal;
 
 void main(void)
 {
+    worldSpaceNormal = normal * normalMatrix;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    WorldSpaceNormal = normalize((modelViewMatrix * vec4(normal, 0.0)).xyz);
 }

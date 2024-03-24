@@ -63,7 +63,7 @@ function addHelpers(){
 function drawScene(){
     var shaderMaterial = new THREE.ShaderMaterial({
         uniforms: {
-            lightDir: { value: new THREE.Vector3(1, 1, 0.5).normalize()}
+            lightDirection: { value: new THREE.Vector3(1.0, 1.0, 1.0).normalize()}
         },
         vertexShader:   toon_vs,
         fragmentShader: toon_fs
