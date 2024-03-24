@@ -83,6 +83,16 @@ function drawScene(){
       
   // PLANE WITH NORMAL MAP
   var normalMaterial = new THREE.ShaderMaterial({
+    uniforms: {
+      albedoMap: { value: new THREE.TextureLoader().load('textures/mur_Ambiant.bmp') },
+      normalMap: { value: new THREE.TextureLoader().load('textures/mur_NormalMap.bmp') },
+      tangent: { value: new THREE.Vector3(1, 0, 0) },
+      lightPosition: { value: new THREE.Vector3(15.0, 50.0, 5.0) },
+      ambientColor: { value: new THREE.Vector3(0.6, 0.6, 0.6) },
+      diffuseColor: { value: new THREE.Vector3(0.4, 0.4, 0.4) },
+      specularColor: { value: new THREE.Vector3(0.6, 0.6, 0.6) },
+      shininess: { value: 15.0 }
+    },
        vertexShader:   bump_normal_vs,
        fragmentShader: bump_normal_fs
    });
@@ -93,6 +103,19 @@ function drawScene(){
        
   // PLANE WITH PARALLAX MAP
   var parallaxMaterial = new THREE.ShaderMaterial({
+    uniforms: {
+      albedoMap: { value: new THREE.TextureLoader().load('textures/mur_Ambiant.bmp') },
+      normalMap: { value: new THREE.TextureLoader().load('textures/mur_NormalMap.bmp') },
+      heightMap: { value: new THREE.TextureLoader().load('textures/mur_Hauteur.bmp') },
+      tangent: { value: new THREE.Vector3(-1, 0, 0) },
+      lightPosition: { value: new THREE.Vector3(0, 0, 1) },
+      ambientColor: { value: new THREE.Vector3(0.5, 0.5, 0.5) },
+      diffuseColor: { value: new THREE.Vector3(0.6, 0.6, 0.6) },
+      specularColor: { value: new THREE.Vector3(0.4, 0.4, 0.4) },
+      shininess: { value: 0.8 },
+      scale: { value: 0.04 },
+      bias: { value: -0.02 }
+    },
        vertexShader:   bump_parallax_vs,
        fragmentShader: bump_parallax_fs
    });
