@@ -1,38 +1,40 @@
-varying vec2 vUV;
-varying vec3 lightDirection;
-varying vec3 cameraDirection;
-
-uniform sampler2D albedoMap;
-uniform sampler2D normalMap;
-uniform sampler2D heightMap;
-
-uniform vec3 ambientColor;
-uniform vec3 diffuseColor;
-uniform vec3 specularColor;
+uniform sampler2D textureMurAmbiant;
+uniform sampler2D textureMurNormalMap;
+uniform vec4 ambiantColor;
+uniform float difuseLightFrac;
+uniform float specularLightFrac;
 uniform float shininess;
 
 uniform float scale;
 uniform float bias;
+uniform sampler2D textureMurHauteurMap;
+
+varying vec2 uvPosition;
+varying vec3 lightDir;
+varying vec3 cameraDir;
+
+vec4 norm;
+vec3 lightDirNorm;
+vec3 cameraDirNorm;
 
 void main(void)
 {
-  float hsb = texture2D(heightMap, vUV).r * scale + bias;
-  vec2 newCoords = vUV + hsb * normalize(vec2(cameraDirection.x, cameraDirection.y));
+  lightDirNorm = normalize(lightDir);
+  cameraDirNorm = normalize(cameraDir);
 
-  vec3 normal = texture2D(normalMap, newCoords).rgb;
-  vec3 normalScaled = normal * 2.0 - 1.0;
+  float height = texture2D(textureMurHauteurMap, uvPosition).x;
+  float hsb = height * scale + bias;
+  vec2 parallaxUvPosition = uvPosition + hsb * cameraDirNorm.xy; 
 
-  vec3 lightDirectionNormal = normalize(lightDirection);
-  vec3 cameraDirectionNormal = normalize(cameraDirection);
+  norm = texture2D(textureMurNormalMap, parallaxUvPosition) * 2.0 - 1.0;
 
-  vec3 halfVector = normalize(lightDirectionNormal + cameraDirectionNormal);
-  float lambert = max(0.0, dot(normalScaled, lightDirectionNormal));
-  float phong = max(0.0, dot(normalScaled, halfVector));
+  vec3 halfVector = normalize(lightDirNorm + cameraDirNorm);
+  float lambert = max(0.0, dot(vec3(norm), lightDirNorm));
+  float phong = max(0.0, dot(vec3(norm), halfVector));
   float specularPower = pow(phong, shininess);
 
-  vec3 diffuse = diffuseColor * lambert;
-  vec3 specular = specularColor * specularPower;
+  float diffuse = difuseLightFrac * lambert;
+  float specular = specularLightFrac * specularPower;
 
-  vec3 baseColor = texture2D(albedoMap, newCoords).rgb;
-  gl_FragColor = vec4(ambientColor * baseColor + diffuse * baseColor + specular, 1.0);
+  gl_FragColor = ambiantColor*texture2D(textureMurAmbiant, parallaxUvPosition) + diffuse*texture2D(textureMurAmbiant, parallaxUvPosition) + specular;
 }
