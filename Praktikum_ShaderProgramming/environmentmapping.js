@@ -8,6 +8,10 @@ var env_vs, env_fs;
 
 var viewerWidth, viewerHeight;
 
+const cubeRenderTarget = new THREE.WebGLCubeRenderTarget( 512, { generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter } );
+
+var cubeCamera = new THREE.CubeCamera( 1, 1000, cubeRenderTarget );
+
 $(window).load(function(){
   SHADER_LOADER.load(
     function (data)
