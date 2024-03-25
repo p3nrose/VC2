@@ -8,11 +8,11 @@ void main(void)
     vec3 color;
 
     if (dotProduct > 0.8) {
-        color = vec3(0.8, 0.8, 1.0);
+        color = vec3(0.8, 1.0, 1.0);
     } else if (dotProduct > 0.6) {
-        color = vec3(0.3, 0.3, 0.6);
+        color = vec3(0.3, 0.6, 0.3);
     } else if (dotProduct > 0.3) {
-        color = vec3(0.2, 0.2, 0.4);
+        color = vec3(0.2, 0.4, 0.2);
     } else {
         color = vec3(0.1, 0.1, 0.2);
     }
